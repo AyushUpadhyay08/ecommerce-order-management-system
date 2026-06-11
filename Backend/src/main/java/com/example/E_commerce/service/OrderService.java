@@ -1,5 +1,6 @@
 package com.example.E_commerce.service;
 
+import com.example.E_commerce.exception.CartEmptyException;
 import com.example.E_commerce.repository.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +39,9 @@ public class OrderService {
         Cart cart = cartRepository.findByUserId(user_id)
                 .orElseThrow(() -> new RuntimeException("Cart not found"));
         List<CartItem> cartItem=cartItemRepository.findByCart(cart);
+        if(cartItem.isEmpty()){
+            throw new CartEmptyException("Cart is empty");
+        }
         double total=0.0;
         for(CartItem cartItem1:cartItem){
             total +=cartItem1.getQuantity()*cartItem1.getProduct().getPrice();

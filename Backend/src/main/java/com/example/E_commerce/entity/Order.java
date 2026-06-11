@@ -11,6 +11,7 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private Double totalAmount;
     private LocalDateTime createdAt;
     @Enumerated(EnumType.STRING)

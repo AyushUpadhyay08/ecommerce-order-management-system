@@ -2,6 +2,9 @@ package com.example.E_commerce.entity;
 
 import jakarta.persistence.*;
 //import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import lombok.Data;
 import lombok.Setter;
 //import lombok.NoArgsConstructor;
@@ -15,9 +18,13 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private int id;
+    @NotBlank
     private String productName;
+
     private String description;
+    @Positive
     private Double price;
+    @Min(0)
     private Integer stock;
     @ManyToOne
     @JoinColumn(name = "category_id")

@@ -4,6 +4,7 @@ import com.example.E_commerce.dto.ProductRequestDTO;
 import com.example.E_commerce.dto.ProductResponseDTO;
 import com.example.E_commerce.entity.Category;
 import com.example.E_commerce.entity.Product;
+import com.example.E_commerce.exception.ResourceNotFoundException;
 import com.example.E_commerce.repository.CategoryRepository;
 import com.example.E_commerce.repository.ProductRepository;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class ProductService {
     }
     public ProductResponseDTO addProduct(ProductRequestDTO productRequestDTO){
         Category category=categoryRepository.findById(productRequestDTO.getCategoryId())
-                .orElseThrow(()->new RuntimeException("Category not found"));
+                .orElseThrow(()-> new ResourceNotFoundException("Category not found"));
         Product product=new Product();
         product.setProductName(productRequestDTO.getProductName());
         product.setDescription(productRequestDTO.getDescription());
@@ -35,12 +36,12 @@ public class ProductService {
                 .toList();
     }
     public ProductResponseDTO getProductById(int id){
-        Product product=productRepository.findById(id).orElseThrow(()->new RuntimeException("Product not found"));
+        Product product=productRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Product not found"));
         return new ProductResponseDTO(product.getId(),product.getProductName(),product.getPrice(),product.getCategory().getName());
     }
     public ProductResponseDTO updateProduct(int id,ProductRequestDTO productRequestDTO){
-        Category category=categoryRepository.findById(id).orElseThrow(()->new RuntimeException("Category not found"));
-        Product product=productRepository.findById(id).orElseThrow(()->new RuntimeException("Product not found"));
+        Category category=categoryRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Category not found"));
+        Product product=productRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Product not found"));
         product.setProductName(productRequestDTO.getProductName());
         product.setDescription(productRequestDTO.getDescription());
         product.setPrice(productRequestDTO.getPrice());

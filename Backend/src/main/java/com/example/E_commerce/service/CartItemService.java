@@ -6,6 +6,7 @@ import com.example.E_commerce.dto.UpdateCartDTO;
 import com.example.E_commerce.entity.Cart;
 import com.example.E_commerce.entity.CartItem;
 import com.example.E_commerce.entity.Product;
+import com.example.E_commerce.exception.InsufficientStockException;
 import com.example.E_commerce.repository.CartItemRepository;
 import com.example.E_commerce.repository.CartRepository;
 import com.example.E_commerce.repository.ProductRepository;
@@ -71,7 +72,7 @@ public class CartItemService {
                 .orElseThrow(()->new RuntimeException("Cart not found"));
         Product product=cartItem.getProduct();
         if(product.getStock()<updateCartDTO.getQuantity()){
-            throw new RuntimeException("Insufficient stock");
+            throw new InsufficientStockException("Insufficient stock");
         }
         cartItem.setQuantity(updateCartDTO.getQuantity());
         cartItemRepository.save(cartItem);

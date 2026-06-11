@@ -1,6 +1,7 @@
 package com.example.E_commerce.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 public class OrderItem {
@@ -8,6 +9,7 @@ public class OrderItem {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     private Integer quantity;
+    @Positive
     private Double price;
     @ManyToOne
     @JoinColumn
